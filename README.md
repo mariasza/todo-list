@@ -1,6 +1,6 @@
 ## Description
 
-API para controle de lista de tarefas
+API for to-do list control
 
 ## Installation
 
