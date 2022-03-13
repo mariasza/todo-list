@@ -1,0 +1,31 @@
+version: '3.8'
+services:
+  db:
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_DATABASE: 'mysqldb'
+      MYSQL_USER: 'user'
+      MYSQL_PASSWORD: '12345'
+      MYSQL_ROOT_PASSWORD: '12345'
+    ports:
+      - '3306:3306'
+    expose:
+      - '3306'
+    volumes:
+      - ./src/database/db:/var/lib/mysql
+    networks:
+      - mysql-compose-network
+  adminer:
+      image: adminer
+      ports:
+        - 8080:8080
+      networks:
+        - mysql-compose-network
+
+networks:
+  mysql-compose-network:
+    driver: bridge
+
+volumes:
+  todo-list-data:

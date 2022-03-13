@@ -1,5 +1,5 @@
 /src/database/db
-/src/database/db-test
+
 # compiled output
 /dist
 /node_modules
