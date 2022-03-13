@@ -2,7 +2,9 @@
 
 ## Description
 
+```bash
 API for to-do list control
+```
 
 ## Installation
 
