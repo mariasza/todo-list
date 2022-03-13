@@ -13,8 +13,8 @@ export class TodoController {
   }
 
   @Get()
-  findAll() {
-    return this.todoService.findAll();
+  async findAll() {
+    return await this.todoService.findAll();
   }
 
   @Get(':id')
@@ -32,3 +32,7 @@ export class TodoController {
     return this.todoService.remove(+id);
   }
 }
+function Public() {
+  throw new Error('Function not implemented.');
+}
+
