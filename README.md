@@ -1,3 +1,5 @@
+# API Todo List
+
 ## Description
 
 API for to-do list control
@@ -11,14 +13,15 @@ $ npm install
 ## Running the app
 
 ```bash
-# development
 $ npm run start
+```
 
-# watch mode
-$ npm run start:dev
+## Creating database
 
-# production mode
-$ npm run start:prod
+```bash
+$ docker-compose up -d
+$ npm run db:recreate
+
 ```
 
 ## Test
@@ -29,14 +32,20 @@ $ npm run test
 
 # e2e tests
 $ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
 ```
 
 
-# todo-list
+## General Info
+```bash
+# User Admin
+email: admin@admin.com
+senha: admin
+```
+```bash
+# Documentation Swagger
+http://localhost:3000/documentation/
 
+```
 
 
 ## License
