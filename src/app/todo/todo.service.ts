@@ -3,17 +3,14 @@ import { InjectModel } from '@nestjs/sequelize';
 import { Todo } from 'src/database/models/todo.model';
 import { PaginationService } from 'src/utils/pagination/pagination.service';
 import { TodoDto } from './dto/todo.dto';
-import { Op } from 'sequelize';
+import { Op, Sequelize } from 'sequelize';
 
 
 import * as moment from 'moment'
 
 @Injectable()
 export class TodoService {
-  constructor(
-    @InjectModel(Todo) private todoModel,
-    private readonly paginationService: PaginationService
-  ) { }
+  constructor(@InjectModel(Todo) private todoModel, private readonly paginationService: PaginationService) { }
 
   async create(data: TodoDto, userEmail: string) {
 
@@ -62,7 +59,12 @@ export class TodoService {
     return await this.findOne(id);
   }
 
-  /*   async remove(id: number) {
-      return `This action removes a #${id} todo`;
-    } */
+  async finish(id: number) {
+    await this.todoModel.update({ finishAt: Sequelize.fn('NOW')}, { where: { id } }).catch((error) => {
+      console.log(error)
+      throw new HttpException(error.errors[0].message, HttpStatus.BAD_REQUEST);
+    })
+
+    return await this.findOne(id);
+  }
 }

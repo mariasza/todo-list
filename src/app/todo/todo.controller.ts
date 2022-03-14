@@ -49,7 +49,7 @@ export class TodoController {
     }
 
     result = await this.todoService.findAll(page, size, delayed);
-    
+
     return result;
   }
 
@@ -107,9 +107,14 @@ export class TodoController {
     }, HttpStatus.OK);
   }
 
-  /*   @Delete(':id')
-    async remove(@Param('id') id: number) {
-      return this.todoService.remove(id);
-    } */
+  @ApiOperation({ summary: 'Finish TODO' })
+  @Patch('finish/:id')
+  async finish(@Param('id') id: number) {
+    const result = await this.todoService.finish(id);
+
+    throw new HttpException({
+      message: { pt: "TODO finalizado", en: "TODO finished" }, result, status: HttpStatus.OK
+    }, HttpStatus.OK);
+  }
 }
 
