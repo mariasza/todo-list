@@ -57,11 +57,4 @@ export class UserController {
     const { userId } = this.userService.decodeToken(token);
     return this.userService.isAdmin(userId);
   }
-
-  @ApiOperation({ summary: 'Find all users' })
-  @ApiBearerAuth()
-  @Get()
-  async findAll() {
-    return await this.userService.findAll();
-  }
 }

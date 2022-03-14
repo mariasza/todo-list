@@ -12,18 +12,18 @@ API for to-do list control
 $ npm install
 ```
 
-## Running the app
-
-```bash
-$ npm run start
-```
-
 ## Creating database
 
 ```bash
 $ docker-compose up -d
 $ npm run db:recreate
 
+```
+
+## Running the app
+
+```bash
+$ npm run start
 ```
 
 ## Test
@@ -61,7 +61,3 @@ A função login retorna um token de acesso (access_token), que deve ser utiliza
 
 ```
 
-
-## License
-
-Nest is [MIT licensed](LICENSE).

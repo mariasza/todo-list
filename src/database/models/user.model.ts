@@ -10,4 +10,10 @@ export class User extends Model<User> {
 
   @Column
   password: string;
+
+  @Column
+  createdAt: Date;
+
+  @Column
+  updatedAt: Date;
 }

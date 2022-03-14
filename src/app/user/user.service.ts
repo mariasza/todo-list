@@ -9,10 +9,7 @@ import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class UserService {
-  constructor(
-    @InjectModel(User) private userModel,
-    private jwtService: JwtService
-  ) { }
+  constructor(@InjectModel(User) private userModel, private jwtService: JwtService) { }
 
   async create(data: CreateUserDto) {
     const { password } = data
@@ -24,18 +21,10 @@ export class UserService {
 
   async login(user: any) {
     return {
-      access_token: this.createToken({ userId: user.id, userEmail: user.email}),
+      access_token: this.createToken({ userId: user.id, userEmail: user.email }),
     };
   }
 
-  async findAll() {
-    return await this.userModel.findAll();
-  }
-
-/*   async findOne(id: number) {
-    return await this.userModel.findOne({ where: { id } });
-  }
- */
   async findOneForEmail(email: string) {
     return await this.userModel.findOne({ where: { email } });
   }
@@ -44,7 +33,7 @@ export class UserService {
     return await bcryptjs.compare(password, hash);
   }
 
-  isAdmin(id: number){
+  isAdmin(id: number) {
     return id === 1
   }
 
