@@ -1,7 +1,7 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { IsNotEmpty } from 'class-validator';
 
-export class CreateTodoDto {
+export class TodoDto {
     @ApiProperty()
     @IsNotEmpty()
     description: string;
@@ -11,5 +11,5 @@ export class CreateTodoDto {
     deadline: Date;
 }
 
-export default CreateTodoDto;
+export default TodoDto;
 

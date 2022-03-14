@@ -1,8 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { Todo } from 'src/database/models/todo.model';
-import { CreateTodoDto } from './dto/create-todo.dto';
-import { UpdateTodoDto } from './dto/update-todo.dto';
+import { TodoDto } from './dto/todo.dto';
 
 @Injectable()
 export class TodoService {
@@ -10,7 +9,7 @@ export class TodoService {
     @InjectModel(Todo) private todoModel,
   ) { }
 
-  async create(data: CreateTodoDto, userEmail: string) {
+  async create(data: TodoDto, userEmail: string) {
 
     const todo = await this.todoModel.create({ ...data, userEmail }).catch((error) => {
       console.log(error)
@@ -32,7 +31,7 @@ export class TodoService {
     return await this.todoModel.findOne({ where: { id } });
   }
 
-  async update(id: number, data: UpdateTodoDto) {
+  async update(id: number, data: TodoDto) {
 
     await this.todoModel.update(data, { where: { id } }).catch((error) => {
       console.log(error)
