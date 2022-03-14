@@ -1,12 +1,13 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, Req, HttpException, HttpStatus, Query } from '@nestjs/common';
 import { TodoService } from './todo.service';
 import { TodoDto } from './dto/todo.dto';
-import { ApiTags, ApiOperation, ApiBearerAuth } from '@nestjs/swagger';
+import { ApiTags, ApiOperation, ApiBearerAuth, ApiOkResponse, ApiUnauthorizedResponse, ApiInternalServerErrorResponse, ApiBadRequestResponse } from '@nestjs/swagger';
 import { UserService } from '../user/user.service';
 import { Todo, TodoStatus } from 'src/database/models/todo.model';
 
 @ApiTags('TODO')
 @ApiBearerAuth()
+@ApiInternalServerErrorResponse()
 @Controller('todo')
 export class TodoController {
   constructor(
@@ -15,6 +16,8 @@ export class TodoController {
   ) { }
 
   @ApiOperation({ summary: 'Create TODO' })
+  @ApiOkResponse({ description: 'TODO created' })
+  @ApiInternalServerErrorResponse()
   @Post()
   async create(@Req() request, @Body() TodoDto: TodoDto) {
     let result: any;
@@ -30,6 +33,9 @@ export class TodoController {
 
 
   @ApiOperation({ summary: 'Find all TODO' })
+  @ApiOkResponse()
+  @ApiUnauthorizedResponse({ description: 'User does not have access to this function' })
+  @ApiInternalServerErrorResponse()
   @Get()
   async findAll(
     @Req() request,
@@ -54,6 +60,8 @@ export class TodoController {
   }
 
   @ApiOperation({ summary: 'Find all user TODO' })
+  @ApiOkResponse()
+  @ApiInternalServerErrorResponse()
   @Get('byUser')
   async findAllByUser(@Req() request) {
     let result: any;
@@ -83,12 +91,17 @@ export class TodoController {
   }
 
   @ApiOperation({ summary: 'Find one TODO' })
+  @ApiOkResponse()
+  @ApiInternalServerErrorResponse()
   @Get(':id')
   async findOne(@Param('id') id: number) {
     return this.todoService.findOne(id);
   }
 
   @ApiOperation({ summary: 'Update TODO' })
+  @ApiOkResponse({ description: 'TODO updated' })
+  @ApiBadRequestResponse({ description: 'TODO completed cannot be updated!' })
+  @ApiInternalServerErrorResponse()
   @Patch(':id')
   async update(@Param('id') id: number, @Body() updateTodoDto: TodoDto) {
     let result: any;
@@ -108,6 +121,8 @@ export class TodoController {
   }
 
   @ApiOperation({ summary: 'Finish TODO' })
+  @ApiOkResponse({ description: 'TODO finished' })
+  @ApiInternalServerErrorResponse()
   @Patch('finish/:id')
   async finish(@Param('id') id: number) {
     const result = await this.todoService.finish(id);

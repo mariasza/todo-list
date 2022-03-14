@@ -2,7 +2,7 @@ import { Controller, Get, Post, Body, Param, Delete, HttpException, HttpStatus, 
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { Public } from 'src/utils/auth/constants';
-import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiInternalServerErrorResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiTags, ApiUnauthorizedResponse } from '@nestjs/swagger';
 
 @ApiTags('User')
 @Controller('user')
@@ -11,6 +11,8 @@ export class UserController {
 
   @Public()
   @ApiOperation({ summary: 'Create account' })
+  @ApiOkResponse({ description: 'Account created' })
+  @ApiInternalServerErrorResponse()
   @Post()
   async create(@Body() createUserDto: CreateUserDto) {
     const result = await this.userService.create(createUserDto);
@@ -22,6 +24,10 @@ export class UserController {
 
   @Public()
   @ApiOperation({ summary: 'Login' })
+  @ApiOkResponse({ description: 'Login successfully' })
+  @ApiNotFoundResponse({ description: 'User not found' })
+  @ApiUnauthorizedResponse({ description:'Email or password incorrect'})
+  @ApiInternalServerErrorResponse()
   @Post('login')
   async login(@Body() createUserDto: CreateUserDto) {
     const { email, password } = createUserDto;
@@ -50,6 +56,7 @@ export class UserController {
   }
 
   @ApiOperation({ summary: 'Return if user is administrator' })
+  @ApiOkResponse()
   @ApiBearerAuth()
   @Get('isAdmin')
   isAdmin(@Req() request,) {
