@@ -23,3 +23,9 @@ export class Todo extends Model<Todo> {
   @Column({ references: { model: 'User', key: 'email' } })
   userEmail: string;
 }
+
+export enum TodoStatus {
+  PROGRESS = 'Em andamento',
+  COMPLETED = 'Finalizado',
+  DELAYED = 'Atrasado',
+}

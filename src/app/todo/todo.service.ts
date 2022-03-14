@@ -24,7 +24,7 @@ export class TodoService {
     return await this.todoModel.findAll();
   }
 
-  async findAllForUser(userEmail: string) {
+  async findAllbyUser(userEmail: string) {
     return await this.todoModel.findAll({ where: { userEmail } });
   }
 
@@ -42,12 +42,7 @@ export class TodoService {
     return await this.findOne(id);
   }
 
-  async remove(id: number) {
+/*   async remove(id: number) {
     return `This action removes a #${id} todo`;
-  }
-
-  getToken(header: string) {
-    const [, token] = header.split(' ')
-    return token
-  }
+  } */
 }
