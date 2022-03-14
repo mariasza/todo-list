@@ -2,7 +2,7 @@ import { Controller, Get, Post, Body, Param, Delete, HttpException, HttpStatus, 
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { Public } from 'src/utils/auth/constants';
-import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('User')
 @Controller('user')
@@ -50,6 +50,7 @@ export class UserController {
   }
 
   @ApiOperation({ summary: 'Return if user is administrator' })
+  @ApiBearerAuth()
   @Get('isAdmin')
   isAdmin(@Req() request,) {
     const token = this.userService.getToken(request.headers['authorization']);
@@ -58,6 +59,7 @@ export class UserController {
   }
 
   @ApiOperation({ summary: 'Find all users' })
+  @ApiBearerAuth()
   @Get()
   async findAll() {
     return await this.userService.findAll();
