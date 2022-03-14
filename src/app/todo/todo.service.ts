@@ -1,12 +1,18 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { Todo } from 'src/database/models/todo.model';
+import { PaginationService } from 'src/utils/pagination/pagination.service';
 import { TodoDto } from './dto/todo.dto';
+import { Op } from 'sequelize';
+
+
+import * as moment from 'moment'
 
 @Injectable()
 export class TodoService {
   constructor(
     @InjectModel(Todo) private todoModel,
+    private readonly paginationService: PaginationService
   ) { }
 
   async create(data: TodoDto, userEmail: string) {
@@ -19,8 +25,23 @@ export class TodoService {
     return todo;
   }
 
-  async findAll() {
-    return await this.todoModel.findAll();
+  async findAll(page: number, size: number, delayed: any) {
+    const { limit, offset } = this.paginationService.getPagination(page, size);
+
+    let query: any = { attributes: ['id', 'description', 'deadline', 'userEmail'], limit, offset };
+
+    if (delayed === 'true') {
+      const now = moment.utc(new Date()).format();
+      query = { ...query, where: { deadline: { [Op.lt]: now } } }
+    }
+
+    let result: any;
+    await this.todoModel.findAndCountAll(query).then(res => {
+      res = JSON.parse(JSON.stringify(res, null, 0));
+      result = this.paginationService.getPagingData(res, page, limit);
+    })
+
+    return result;
   }
 
   async findAllbyUser(userEmail: string) {
@@ -41,7 +62,7 @@ export class TodoService {
     return await this.findOne(id);
   }
 
-/*   async remove(id: number) {
-    return `This action removes a #${id} todo`;
-  } */
+  /*   async remove(id: number) {
+      return `This action removes a #${id} todo`;
+    } */
 }

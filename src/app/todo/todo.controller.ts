@@ -5,15 +5,14 @@ import { ApiTags, ApiOperation, ApiBearerAuth } from '@nestjs/swagger';
 import { UserService } from '../user/user.service';
 import { Todo, TodoStatus } from 'src/database/models/todo.model';
 
-import * as moment from 'moment'
-
 @ApiTags('TODO')
 @ApiBearerAuth()
 @Controller('todo')
 export class TodoController {
   constructor(
     private readonly todoService: TodoService,
-    private readonly userService: UserService) { }
+    private readonly userService: UserService,
+  ) { }
 
   @ApiOperation({ summary: 'Create TODO' })
   @Post()
@@ -37,21 +36,21 @@ export class TodoController {
     @Query('page') page: number,
     @Query('size') size: number,
     @Query('delayed') delayed: boolean) {
-    
+    let result: any;
     const token = this.userService.getToken(request.headers['authorization']);
     const { userId } = this.userService.decodeToken(token);
-    const isAdmin = await this.userService.isAdmin(userId)
+
+    const isAdmin = await this.userService.isAdmin(userId);
+
     if (!isAdmin) {
       throw new HttpException({
         message: { pt: "Usuário não tem acesso a essa função", en: "User does not have access to this function" }
       }, HttpStatus.UNAUTHORIZED);
     }
 
-    /*  
-     const now = moment.utc(new Date()).format();
-    { finishAt: { [Op.lt]: now } 
-      */
-    return await this.todoService.findAll();
+    result = await this.todoService.findAll(page, size, delayed);
+    
+    return result;
   }
 
   @ApiOperation({ summary: 'Find all user TODO' })

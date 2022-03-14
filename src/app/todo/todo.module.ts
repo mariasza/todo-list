@@ -7,6 +7,7 @@ import { UserService } from '../user/user.service';
 import { User } from 'src/database/models/user.model';
 import { JwtModule } from '@nestjs/jwt';
 import { jwtConstants } from 'src/utils/auth/constants';
+import { PaginationService } from 'src/utils/pagination/pagination.service';
 
 @Module({
   imports: [SequelizeModule.forFeature([Todo, User]), 
@@ -15,6 +16,6 @@ import { jwtConstants } from 'src/utils/auth/constants';
     signOptions: { expiresIn: '1d' },
   })],
   controllers: [TodoController],
-  providers: [TodoService, UserService]
+  providers: [TodoService, UserService, PaginationService]
 })
 export class TodoModule {}
