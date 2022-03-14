@@ -49,7 +49,7 @@ export class UserController {
     }, HttpStatus.OK);
   }
 
-  @ApiOperation({ summary: 'Returns if user is administrator' })
+  @ApiOperation({ summary: 'Return if user is administrator' })
   @Get('isAdmin')
   isAdmin(@Req() request,) {
     const token = this.userService.getToken(request.headers['authorization']);
@@ -57,18 +57,9 @@ export class UserController {
     return this.userService.isAdmin(userId);
   }
 
+  @ApiOperation({ summary: 'Find all users' })
   @Get()
   async findAll() {
     return await this.userService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: number) {
-    return this.userService.findOne(id);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: number) {
-    return this.userService.remove(id);
   }
 }

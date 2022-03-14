@@ -32,22 +32,17 @@ export class UserService {
     return await this.userModel.findAll();
   }
 
-  async findOne(id: number) {
+/*   async findOne(id: number) {
     return await this.userModel.findOne({ where: { id } });
   }
-
+ */
   async findOneForEmail(email: string) {
     return await this.userModel.findOne({ where: { email } });
-  }
-
-  async remove(id: number) {
-    return await this.userModel.remove({ where: { id } });
   }
 
   async checkPassword(password: string, hash: string) {
     return await bcryptjs.compare(password, hash);
   }
-
 
   isAdmin(id: number){
     return id === 1
