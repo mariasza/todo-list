@@ -8,18 +8,16 @@ import { UserService } from '../user/user.service';
 import { TodoController } from './todo.controller';
 import { TodoService } from './todo.service';
 import { configSequelize } from './../../database/sequelizeOptions';
+import TodoDto from './dto/todo.dto';
 
-describe('TodoController Unit Tests', () => {
+describe('TodoController', () => {
   let controller: TodoController;
   let spyService: TodoService
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     const ApiServiceProvider = {
       provide: TodoService,
       useFactory: () => ({
-        create: jest.fn(() => []),
-        findAll: jest.fn(() => []),
-        findAllbyUser: jest.fn(() => []),
         findOne: jest.fn(() => []),
         update: jest.fn(() => []),
         finish: jest.fn(() => [])
@@ -45,4 +43,9 @@ describe('TodoController Unit Tests', () => {
   it('should be defined', () => {
     expect(controller).toBeDefined();
   });
+
+  it("calling findOne method", () => {
+    controller.findOne(0)
+    expect(spyService.findOne).toHaveBeenCalled();
+  })
 });
