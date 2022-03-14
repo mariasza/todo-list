@@ -9,11 +9,5 @@ export class User extends Model<User> {
   email: string;
 
   @Column
-  senha: string;
-
-  @Column
-  createdAt: Date;
-
-  @Column
-  updatedAt: Date;
+  password: string;
 }
