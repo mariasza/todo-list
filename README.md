@@ -47,7 +47,7 @@ senha: admin
 ## Documentation Swagger
 ```bash
 # Link
-<http://localhost:3000/documentation/>
+http://localhost:3000/documentation/
 
 # WARNING
 The link will only be available after the "Running the app" step
