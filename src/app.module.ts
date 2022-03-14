@@ -21,6 +21,7 @@ import { Todo } from './database/models/todo.model';
     username: 'user',
     password: '12345',
     database: 'mysqldb',
+    timezone: '-04:00',
     models: [User, Todo],
   }),
     TodoModule, UserModule],
