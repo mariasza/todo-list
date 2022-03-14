@@ -26,16 +26,11 @@ $ npm run db:recreate
 $ npm run start
 ```
 
-## Test
+## Running the tests
 
 ```bash
-# unit tests
 $ npm run test
-
-# e2e tests
-$ npm run test:e2e
 ```
-
 
 ## Credentiais
 ```bash
