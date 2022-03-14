@@ -20,6 +20,6 @@ export class Todo extends Model<Todo> {
   @Column
   finishAt: Date;
 
-  @Column({ references: { model: 'User', key: 'id' } })
-  idUser: number;
+  @Column({ references: { model: 'User', key: 'email' } })
+  userEmail: string;
 }

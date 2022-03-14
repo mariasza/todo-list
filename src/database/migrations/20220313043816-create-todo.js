@@ -27,12 +27,12 @@ module.exports = {
       finishAt: {
         type: Sequelize.DATE
       },
-      idUser: {
+      userEmail: {
         allowNull: false,
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
         references: {
           model: 'Users',
-          key: 'id'
+          key: 'email'
         }
       },
     });

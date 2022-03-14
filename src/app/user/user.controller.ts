@@ -28,6 +28,12 @@ export class UserController {
 
     const user = await this.userService.findOneForEmail(email);
 
+    if (!user) {
+      throw new HttpException({
+        message: { pt: "Usuário não encontrado", en: "User not found" }
+      }, HttpStatus.NOT_FOUND);
+    }
+
     const checkPassword = await this.userService.checkPassword(password, user.password);
 
     if (!checkPassword) {
@@ -36,7 +42,7 @@ export class UserController {
       }, HttpStatus.UNAUTHORIZED);
     }
 
-    const token = await this.userService.login({ id: user.id });
+    const token = await this.userService.login(user);
 
     throw new HttpException({
       message: { pt: "Login realizado com sucesso", en: "Login successfully" }, result: token, status: HttpStatus.OK

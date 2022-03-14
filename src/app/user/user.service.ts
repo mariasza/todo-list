@@ -24,7 +24,7 @@ export class UserService {
 
   async login(user: any) {
     return {
-      access_token: this.createToken({ userId: user.id }),
+      access_token: this.createToken({ userId: user.id, userEmail: user.email}),
     };
   }
 
@@ -52,7 +52,7 @@ export class UserService {
     return this.jwtService.sign(data);
   }
 
-  decodeToken(token: string) {
+  decodeToken(token: string): any {
     return this.jwtService.decode(token);
   }
 }
