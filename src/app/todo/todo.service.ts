@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { Todo } from 'src/database/models/todo.model';
 import { CreateTodoDto } from './dto/create-todo.dto';
@@ -7,11 +7,17 @@ import { UpdateTodoDto } from './dto/update-todo.dto';
 @Injectable()
 export class TodoService {
   constructor(
-    @InjectModel(Todo) private todoModel: typeof Todo,
+    @InjectModel(Todo) private todoModel,
   ) { }
 
-  create(createTodoDto: CreateTodoDto) {
-    return 'This action adds a new todo';
+  async create(data: CreateTodoDto, userEmail: string) {
+
+    const todo = await this.todoModel.create({ ...data, userEmail }).catch((error) => {
+      console.log(error)
+      throw new HttpException(error.errors[0].message, HttpStatus.BAD_REQUEST);
+    })
+
+    return todo;
   }
 
   async findAll() {
@@ -28,5 +34,10 @@ export class TodoService {
 
   remove(id: number) {
     return `This action removes a #${id} todo`;
+  }
+
+  getToken(header: string) {
+    const [, token] = header.split(' ')
+    return token
   }
 }
