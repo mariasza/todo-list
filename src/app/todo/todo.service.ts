@@ -24,15 +24,25 @@ export class TodoService {
     return await this.todoModel.findAll();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} todo`;
+  async findAllForUser(userEmail: string) {
+    return await this.todoModel.findAll({ where: { userEmail } });
   }
 
-  update(id: number, updateTodoDto: UpdateTodoDto) {
-    return `This action updates a #${id} todo`;
+  async findOne(id: number) {
+    return await this.todoModel.findOne({ where: { id } });
   }
 
-  remove(id: number) {
+  async update(id: number, data: UpdateTodoDto) {
+
+    await this.todoModel.update(data, { where: { id } }).catch((error) => {
+      console.log(error)
+      throw new HttpException(error.errors[0].message, HttpStatus.BAD_REQUEST);
+    })
+
+    return await this.findOne(id);
+  }
+
+  async remove(id: number) {
     return `This action removes a #${id} todo`;
   }
 

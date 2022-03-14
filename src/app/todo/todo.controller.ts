@@ -14,10 +14,11 @@ export class TodoController {
   @ApiOperation({ summary: 'Create TODO' })
   @Post()
   async create(@Req() request, @Body() createTodoDto: CreateTodoDto) {
-    const token = this.todoService.getToken(request.headers['authorization']);
+    let result: any;
+    const token = this.userService.getToken(request.headers['authorization']);
     const { userEmail } = this.userService.decodeToken(token);
 
-    const result = await this.todoService.create(createTodoDto, userEmail)
+    result = await this.todoService.create(createTodoDto, userEmail)
 
     throw new HttpException({
       message: { pt: "TODO criado", en: "TODO created" }, result, status: HttpStatus.OK
@@ -30,21 +31,31 @@ export class TodoController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.todoService.findOne(+id);
+  async findOne(@Param('id') id: number) {
+    return this.todoService.findOne(id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateTodoDto: UpdateTodoDto) {
-    return this.todoService.update(+id, updateTodoDto);
+  async update(@Param('id') id: number, @Body() updateTodoDto: UpdateTodoDto) {
+    let result: any;
+    const todo = await this.todoService.findOne(id);
+
+    if (todo.finishAt) {
+      throw new HttpException({
+        message: { pt: "TODO concluído não pode ser atualizado!", en: "TODO completed cannot be updated!" }
+      }, HttpStatus.NOT_FOUND);
+    }
+
+    result = await this.todoService.update(id, updateTodoDto)
+
+    throw new HttpException({
+      message: { pt: "TODO atualizado", en: "TODO updated" }, result, status: HttpStatus.OK
+    }, HttpStatus.OK);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.todoService.remove(+id);
+  async remove(@Param('id') id: number) {
+    return this.todoService.remove(id);
   }
-}
-function Public() {
-  throw new Error('Function not implemented.');
 }
 
