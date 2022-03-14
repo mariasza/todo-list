@@ -21,6 +21,29 @@ export class UserController {
   }
 
   @Public()
+  @ApiOperation({ summary: 'Login' })
+  @Post('login')
+  async login(@Body() createUserDto: CreateUserDto) {
+    const { email, password } = createUserDto;
+
+    const user = await this.userService.findOneForEmail(email);
+
+    const checkPassword = await this.userService.checkPassword(password, user.password);
+
+    if (!checkPassword) {
+      throw new HttpException({
+        message: { pt: "Email ou senha incorretos", en: "Email or password incorrect" }
+      }, HttpStatus.UNAUTHORIZED);
+    }
+
+    const token = await this.userService.login({ id: user.id });
+
+    throw new HttpException({
+      message: { pt: "Login realizado com sucesso", en: "Login successfully" }, result: token, status: HttpStatus.OK
+    }, HttpStatus.OK);
+  }
+
+  @Public()
   @Get()
   async findAll() {
     return await this.userService.findAll();
