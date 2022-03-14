@@ -1,8 +1,9 @@
-import { Controller, Get, Post, Body, Param, Delete, HttpException, HttpStatus, Req } from '@nestjs/common';
+import { Controller, Get, Post, Body, HttpException, HttpStatus, Req } from '@nestjs/common';
+import { ApiBearerAuth, ApiInternalServerErrorResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiTags, ApiUnauthorizedResponse } from '@nestjs/swagger';
+
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
-import { Public } from 'src/utils/auth/constants';
-import { ApiBearerAuth, ApiInternalServerErrorResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiTags, ApiUnauthorizedResponse } from '@nestjs/swagger';
+import { Public } from './../../utils/auth/constants';
 
 @ApiTags('User')
 @Controller('user')

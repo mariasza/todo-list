@@ -3,12 +3,12 @@ import { Module } from '@nestjs/common';
 import { SequelizeModule } from '@nestjs/sequelize';
 
 import { JwtModule } from '@nestjs/jwt';
-import { jwtConstants } from 'src/utils/auth/constants';
+import { jwtConstants } from './../../utils/auth/constants';
 
 
 import { UserService } from './user.service';
 import { UserController } from './user.controller';
-import { User } from 'src/database/models/user.model';
+import { User } from './../../database/models/user.model';
 
 @Module({
   imports: [SequelizeModule.forFeature([User]),

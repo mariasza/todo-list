@@ -1,9 +1,10 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, Req, HttpException, HttpStatus, Query } from '@nestjs/common';
+import { ApiTags, ApiOperation, ApiBearerAuth, ApiOkResponse, ApiUnauthorizedResponse, ApiInternalServerErrorResponse, ApiBadRequestResponse } from '@nestjs/swagger';
+
 import { TodoService } from './todo.service';
 import { TodoDto } from './dto/todo.dto';
-import { ApiTags, ApiOperation, ApiBearerAuth, ApiOkResponse, ApiUnauthorizedResponse, ApiInternalServerErrorResponse, ApiBadRequestResponse } from '@nestjs/swagger';
 import { UserService } from '../user/user.service';
-import { Todo, TodoStatus } from 'src/database/models/todo.model';
+import { Todo, TodoStatus } from './../../database/models/todo.model';
 
 @ApiTags('TODO')
 @ApiBearerAuth()

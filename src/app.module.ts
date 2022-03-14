@@ -10,20 +10,11 @@ import { JwtAuthGuard } from './utils/auth/jwt-auth.guard';
 import { APP_GUARD } from '@nestjs/core';
 
 import { PaginationService } from './utils/pagination/pagination.service';
-import { User } from './database/models/user.model';
-import { Todo } from './database/models/todo.model';
+import { configSequelize } from './database/sequelizeOptions';
 
 @Module({
-  imports: [SequelizeModule.forRoot({
-    dialect: 'mysql',
-    host: 'localhost',
-    port: 3306,
-    username: 'user',
-    password: '12345',
-    database: 'mysqldb',
-    timezone: '-03:00',
-    models: [User, Todo],
-  }),
+  imports: [
+    SequelizeModule.forRoot(configSequelize),
     TodoModule, UserModule],
   providers: [
     JwtStrategy,

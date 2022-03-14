@@ -1,7 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
-import { Todo } from 'src/database/models/todo.model';
-import { PaginationService } from 'src/utils/pagination/pagination.service';
+import { Todo } from './../../database/models/todo.model';
+import { PaginationService } from './../../utils/pagination/pagination.service';
 import { TodoDto } from './dto/todo.dto';
 import { Op, Sequelize } from 'sequelize';
 
