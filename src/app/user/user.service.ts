@@ -48,11 +48,21 @@ export class UserService {
     return await bcryptjs.compare(password, hash);
   }
 
+
+  isAdmin(id: number){
+    return id === 1
+  }
+
   createToken(data): string {
     return this.jwtService.sign(data);
   }
 
   decodeToken(token: string): any {
     return this.jwtService.decode(token);
+  }
+
+  getToken(header: string) {
+    const [, token] = header.split(' ')
+    return token
   }
 }
